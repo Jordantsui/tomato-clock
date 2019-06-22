@@ -43,6 +43,7 @@ class SignUp extends React.Component<any,ISignUpState> {
 				password_confirmation:passwordConformation
 			})
 			this.props.history.push('/')
+			// props是Route标签提供的，包括match、location、history三个属性
 			console.log('成功')
 		}catch(e){
 			throw new Error(e)

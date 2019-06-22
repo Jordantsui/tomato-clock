@@ -1,4 +1,5 @@
 import axios from 'axios';
+import history from './history'
 
 const appID = 'Q3YNS4UQ9MVuWQkHxhGCTf6m'  // "Q3YNS4UQ9MVuWQkHxhGCTf6m"
 const appSecret = 'rMKsoz8d3b46FzKZsbpaWcmG' // "rMKsoz8d3b46FzKZsbpaWcmG"
@@ -40,6 +41,12 @@ instance.interceptors.response.use((response)=> {
     }
     return response;
 }, (error)=> {
+	if(error.response.status === 401){
+		console.log("重定向");
+		history.push('/login')
+    }
+    //仅用 history.push 会刷新页面，因此还需结合 react router
+
     // Do something with response error
     return Promise.reject(error);
 });
