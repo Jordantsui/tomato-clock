@@ -45,7 +45,7 @@ instance.interceptors.response.use((response)=> {
 		console.log("重定向");
 		history.push('/login')
     }
-    //仅用 history.push 会刷新页面，因此还需结合 react router
+    // 仅用 history.push 会刷新页面，因此还需结合 react router
 
     // Do something with response error
     return Promise.reject(error);
