@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
-import {addTodo} from "../../redux/actions";
+import {addTodo} from "../redux/actions";
 import axios from 'src/config/axios';
 import {Input,Icon} from 'antd';
 
@@ -24,7 +24,7 @@ class TodoInput extends React.Component<ITodoInputProps,ITodoInputState> {
 
 	onKeyUp = (e) => {
 		if(e.keyCode === 13 && this.state.description !== ''){
-			//this.addTodo()
+			// this.addTodo()
 			this.postTodo()
 		}
 		// 13表示回车键
@@ -68,4 +68,4 @@ const mapDispatchToProps = {
 }
 
 export default connect(mapStateToProps,mapDispatchToProps)(TodoInput);
-//export default TodoInput;
+// export default TodoInput;
