@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { Checkbox } from 'antd';
 import { Checkbox,Icon } from 'antd';
+import classNames from 'classnames';
+import './TodoItem.scss'
 
 interface ITodoItemProps {
 	id: number;
@@ -35,7 +36,7 @@ class TodoItem extends React.Component<ITodoItemProps,ITodoItemState> {
 		if(e.keyCode === 13 && this.state.editText !== ''){
 			this.update({description: this.state.editText})
 		}
-	}
+	}// 需要写成箭头函数
 
 	public render() {
 		const Editing = (
@@ -51,9 +52,15 @@ class TodoItem extends React.Component<ITodoItemProps,ITodoItemState> {
 				</div>
 			</div>
 		)
-		const Text = <span onDoubleClick={this.toEditing}>{this.props.description}</span>
+		const Text = <span className="text" onDoubleClick={this.toEditing}>{this.props.description}</span>
+		const todoItemClass = classNames({
+			TodoItem: true,
+			editing: this.props.editing,
+			completed: this.props.completed
+        })
+        // 注意 classnames 的使用
 		return (
-			<div className="TodoItem" id="TodoItem">
+			<div className={todoItemClass} id="TodoItem">
 				<Checkbox checked={this.props.completed}
 				          onChange={e=> this.update({completed: e.target.checked})}
 				/>

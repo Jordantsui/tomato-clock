@@ -1,6 +1,8 @@
 import * as React from 'react';
-import TodoInput from 'src/components/Todos/TodoInput'
-import TodoItem from  'src/components/Todos/TodoItem'
+import { connect } from 'react-redux';
+import {addTodo} from "../redux/actions";
+import TodoInput from 'src/components/TodoInput'
+import TodoItem from  'src/components/TodoItem'
 import axios from 'src/config/axios'
 import './Todos.scss'
 
@@ -14,6 +16,18 @@ class Todos extends React.Component<any,ITodosState> {
 		this.state = {
 			todos: []
 		}
+	}
+
+	get unDeletedTodos(){
+		return this.state.todos.filter(t => !t.deleted)
+	}
+
+	get unCompletedTodos(){
+		return this.unDeletedTodos.filter(t => !t.completed)
+	}
+
+	get completedTodos(){
+		return this.unDeletedTodos.filter(t => t.completed)
 	}
 
 	addTodo = async (params:any)=>{
@@ -72,17 +86,38 @@ class Todos extends React.Component<any,ITodosState> {
 	public render() {
 		return (
 			<div className="Todos" id="Todos">
-				<TodoInput addTodo={(params)=>this.addTodo(params)}/>
-				<main>
+				{/* <TodoInput addTodo={(params)=>this.addTodo(params)}/> */}
+				<TodoInput/>
+				
+				<div className="todoLists">
 					{
-						this.state.todos.map(t=><TodoItem key={t.id} {...t}
+						this.unCompletedTodos.map(t=><TodoItem key={t.id} {...t}
 							update={this.updateTodo} toEditing={this.toEditing}
 						/>)
 					}
-				</main>
+					{
+						this.completedTodos.map(t=>
+							<TodoItem key={t.id} {...t}
+							          update={this.updateTodo}
+							          toEditing={this.toEditing}/>)
+					}
+				</div>
 			</div>
 		);
 	}
 }
 
-export default Todos;
+const mapStateToProps = (state, ownProps) => ({
+	todos: state.todos,
+	//注意这个 todos 是什么
+	...ownProps
+})
+
+
+const mapDispatchToProps = {
+	addTodo
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Todos);
+/* export default Todos; */
+//connect、mapStateToProps、mapDispatchToProps 的写法来自于 redux 文档

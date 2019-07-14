@@ -1,9 +1,9 @@
 import * as React from 'react';
 import { Dropdown,Icon,Menu } from "antd";
-import Todos from 'src/components/Todos/Todos'
+import Todos from 'src/components/Todos'
 import axios from 'src/config/axios';
 import history from 'src/config/history'
-import './Index.scss'
+import './Home.scss'
 
 interface IRouter {
 	history: any;
@@ -25,7 +25,7 @@ const menu = (
 	</Menu>
 );
 
-class Index extends React.Component<IRouter,IIndexState> {
+class Home extends React.Component<IRouter,IIndexState> {
 
 	constructor(props: any){
 		super(props)
@@ -37,6 +37,7 @@ class Index extends React.Component<IRouter,IIndexState> {
 	async componentWillMount(){
 		await this.getMe()
 	}
+	// 未执行？？？？
 
 	getMe = async () => {
 		const response = await axios.get('me');
@@ -47,7 +48,7 @@ class Index extends React.Component<IRouter,IIndexState> {
 
 	render() {
 		return (
-			<div className="Index" id="Index">
+			<div className="Home" id="Home">
 {/* 				<p>欢迎，{this.state.user && this.state.user.account}</p>
 				<Button onClick={this.logout}>注销</Button> */}
 				<header>
@@ -67,4 +68,4 @@ class Index extends React.Component<IRouter,IIndexState> {
 	}
 }
 
-export default Index;
+export default Home;

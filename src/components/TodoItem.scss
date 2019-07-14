@@ -1,0 +1,42 @@
+#TodoItem{
+    display: flex;
+    align-items: center;
+    padding: 8px 0 8px 8px;
+    border-bottom: 1px solid #ddd;
+    &:hover{background: #f9f9f9}
+    &.editing{background: #fff3d2}
+    &:first-child{
+      border-top: 1px solid #ddd;
+    }
+    &.completed{
+      >.text{
+        text-decoration: line-through;
+        color: #a9a9a9;
+      }
+    }
+    /*classnames的使用*/
+
+    >.editing,>.text{
+      flex: 1;
+    }
+    >.editing{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 8px;
+      >input{
+        border: 0;
+        padding: 0;
+        outline: none;
+        /*border和outline这两句把input的默认样式取消*/
+        background: transparent;
+        /*把input的背景颜色给去掉*/
+      }
+      >.iconWrapper>.anticon{
+        margin-left:4px;
+        color: #a9a9a9;
+        cursor: pointer;
+        /*cursor: pointer 表示鼠标悬在icon上方时，变成手的形状*/
+      }
+    }
+  }

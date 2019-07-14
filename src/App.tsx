@@ -7,7 +7,7 @@ import history from './config/history'
 import './App.scss';
 import Login from './components/Login'
 import SignUp from './components/SignUp'
-import Index from './components/Index'
+import Home from './components/Home'
 
 // import logo from './logo.svg';
 
@@ -30,12 +30,13 @@ class App extends React.Component {
     return(
       <Router history={history}>
         <div>
-          <Route exact={true} path='/' component={Index}/>
+          <Route exact={true} path='/' component={Home}/>
           <Route path='/login' component={Login}/>
           <Route path='/signUp' component={SignUp}/>
         </div>
       </Router>
     )
+    // 注意exact={true}
   }
 }
 

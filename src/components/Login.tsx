@@ -25,6 +25,7 @@ class Login extends React.Component<any,ILoginState> {
 		this.setState(newState)
 	}
 	// 此函数是 onChangeAccount 和 onChangePassword 的结合体
+	// 注意 keyof
 
 	submit = async () => {
 		const { account,password } = this.state;
@@ -56,6 +57,7 @@ class Login extends React.Component<any,ILoginState> {
 			</div>
 		);
 	}
+	// 只有在接口文件（index.js）中才需要显示地render()，一般组件的不需要
 }
 
 export default Login;
