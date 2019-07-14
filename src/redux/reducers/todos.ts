@@ -1,6 +1,7 @@
 import {ADD_TODO,INIT_TODOS,UPDATE_TODO,EDIT_TODO} from '../actionTypes'
 
 export default (state:any[] = [], action:any):any => {
+	// state:any[] 初始化时不能是 undefined，所以加了 = []
 	switch (action.type){
 		case ADD_TODO:
 			// 这里不能用 state.push(action.payload)、再返回 state
