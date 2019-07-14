@@ -1,6 +1,7 @@
 import { ADD_TODO,INIT_TODOS,UPDATE_TODO,EDIT_TODO, } from "../actionTypes";
 
 export const addTodo = (payload:any)=>{
+	// any、any[]、number？？
 	return {
 		type: ADD_TODO,
 		payload
