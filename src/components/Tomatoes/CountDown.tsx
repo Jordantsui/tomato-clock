@@ -25,9 +25,12 @@ class CountDown extends React.Component<ICountDownProps,ICountDownState> {
 
 	componentDidMount(){
 		timerId = setInterval(()=>{
+			document.title = `${this.countDown} - 饥人谷番茄APP`;
 			const time = this.state.countDown
 			this.setState({countDown: time - 1000})
-			if(time < 0){
+			if(time < 1000){
+			// 若条件为time < 1，当time为1时，time-1000=-999，则页面会显示出-999，有隐患
+				document.title = '饥人谷番茄APP';
 				this.props.onFinish()
 				clearInterval(timerId)
 			}
@@ -38,6 +41,7 @@ class CountDown extends React.Component<ICountDownProps,ICountDownState> {
 		const min = Math.floor(this.state.countDown/1000/60)
 		const second = Math.floor(this.state.countDown/1000%60)
 		return `${min<10?`0${min}`:min}:${second<10?`0${second}`:second}`
+		// 引号？？？
 	}
 
 	componentWillUnmount(){
@@ -45,13 +49,17 @@ class CountDown extends React.Component<ICountDownProps,ICountDownState> {
 	}
 
 	public render() {
-		const min = Math.floor(this.state.countDown/1000/60)
+/* 		const min = Math.floor(this.state.countDown/1000/60)
 		// 时间戳是毫秒
 		const second = Math.floor(this.state.countDown/1000%60)
-		const time = `${min}:${second<10?`0${second}`:second}`
+		const time = `${min}:${second<10?`0${second}`:second}` */
+		const percent = 1 - this.state.countDown/this.props.duration
 		return (
-			<div className="CountDown">
-				{time}
+/* 			<div className="CountDown">
+				{time} */
+			<div className="CountDown" id="CountDown">
+				<span className="restTime">{this.countDown}</span>
+				<div className="progress" style={{width: `${percent*100}%`}}/>
 			</div>
 		);
 	}

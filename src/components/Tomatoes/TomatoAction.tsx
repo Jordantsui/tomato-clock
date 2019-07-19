@@ -1,10 +1,11 @@
 // 开始番茄闹钟的按钮
 
 import * as React from 'react';
-import {Button,Input,Icon} from "antd"
+import {Button,Input,Modal,Icon} from "antd"
 import axios from 'src/config/axios'
-// import CountDown from './CountDown'
-import CountDown from './CountDownHook'
+import CountDown from './CountDown'
+import './TomatoAction.scss'
+// import CountDown from './CountDownHook'
 
 interface ITomatoActionProps {
 	startTomato: () => void;
@@ -24,6 +25,8 @@ interface ITomatoActionProps {
 interface ITomatoActionState {
 	description: string;
 }
+
+const confirm = Modal.confirm;
 		
 class TomatoAction extends React.Component<ITomatoActionProps,ITomatoActionState> {
 	constructor(props){
@@ -35,32 +38,56 @@ class TomatoAction extends React.Component<ITomatoActionProps,ITomatoActionState
 
 	onKeyUp = (e) => {
 		if(e.keyCode === 13 && this.state.description !== ''){
-			this.addDescription()
+			this.updateTomato({
+				description: this.state.description,
+				ended_at: new Date()
+			})
+			this.setState({description: ''})
 			// 番茄闹钟结束、输入完描述之后，应该 addDescription
 		}
 	}
 
 	onFinish = () => {
-		this.render()
+		// this.render()
+		this.forceUpdate()
+		// render()没有起作用，是因为重新渲染时props和this.state数据并未改变，所以重新渲染时这部分未更新
+		// 此时可用forceUpdate强制更新？？？
 	}
+
+	showConfirm = () =>{
+		confirm({
+			title: '您目前正在一个番茄工作时间中，要放弃这个番茄吗？',
+			onOk: ()=>{
+				this.abortTomato()
+			},
+			onCancel() {
+				console.log('取消');
+			},
+			cancelText: '取消',
+			okText: '确定',
+		});
+	}
+	// 点击取消按钮后，询问弹窗
+
 	// 倒计时结束，则重新渲染（因为倒计时不在state中）
 
-	addDescription = async ()=>{
+	abortTomato = ()=>{
+		this.updateTomato({aborted: true})
+		document.title = '饥人谷番茄APP';
+	}
+
+	updateTomato = async (params:any)=>{
 		try {
-			const response = await axios.put(`tomatoes/${this.props.unfinishedTomato.id}`,{
-				description: this.state.description,
-				ended_at: new Date()
-			})
+			const response = await axios.put(`tomatoes/${this.props.unfinishedTomato.id}`,params)
 			this.props.updateTomato(response.data.resource)
 			// updateTomato 最终更改了store中的tomatoes，而不是页面上按钮下面显示的东西
-			this.setState({description: ''})
 		}catch (e) {
 			throw new Error(e)
 		}
 	}
 
 	public render() {
-		let html = <div/>
+		let html = <div className="inputWrapper"/>
 		if(this.props.unfinishedTomato === undefined){
 			html = <Button className="startTomatoButton" onClick={()=>{this.props.startTomato()}}>开始番茄</Button>
 		}else{
@@ -74,12 +101,21 @@ class TomatoAction extends React.Component<ITomatoActionProps,ITomatoActionState
 					       onChange={e=> this.setState({description: e.target.value})}
 					       onKeyUp={e => this.onKeyUp(e)}
 					/>
-					<Icon type="close-circle" />
+					<Icon type="close-circle" className="abort"
+					      onClick={this.showConfirm}
+					/>
 				</div>
 			}else if(timeNow - startedAt < duration){
 				const timer = duration - timeNow + startedAt
 				// 传给 CountDown.tsx ，作为倒计时的时间
-				html = <CountDown timer={timer} onFinish={this.onFinish}/> // 倒计时
+				html = (
+					<div className="countDownWrapper">
+						<CountDown timer={timer} duration={duration}
+						           onFinish={this.onFinish}/>
+						<Icon type="close-circle" className="abort"
+						      onClick={this.showConfirm}/>
+					</div>
+				)
 			}
 		}
 		return (
