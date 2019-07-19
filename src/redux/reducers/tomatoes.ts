@@ -5,15 +5,16 @@ export default (state:any[] = [], action) => {
 		case ADD_TOMATO:
 			return [action.payload,...state];
 		case UPDATE_TOMATO:
-				return state.map(t=>{
-					if(t.id === action.payload.id){
-						return action.payload
-					}else{
-						return t
-					}
-				})
+			return state.map(t=>{
+				if(t.id === action.payload.id){
+					return action.payload
+				}else{
+					return t
+				}
+			})
 		case INIT_TOMATOES:
 			return [...action.payload]
+			// 此时，action.payload 是数组
 		default:
 			return state
 	}

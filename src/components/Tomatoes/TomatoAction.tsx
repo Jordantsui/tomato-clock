@@ -1,3 +1,5 @@
+// 开始番茄闹钟的按钮
+
 import * as React from 'react';
 import {Button,Input,Icon} from "antd"
 import axios from 'src/config/axios'
@@ -34,12 +36,14 @@ class TomatoAction extends React.Component<ITomatoActionProps,ITomatoActionState
 	onKeyUp = (e) => {
 		if(e.keyCode === 13 && this.state.description !== ''){
 			this.addDescription()
+			// 番茄闹钟结束、输入完描述之后，应该 addDescription
 		}
 	}
 
 	onFinish = () => {
 		this.render()
 	}
+	// 倒计时结束，则重新渲染（因为倒计时不在state中）
 
 	addDescription = async ()=>{
 		try {
@@ -48,6 +52,7 @@ class TomatoAction extends React.Component<ITomatoActionProps,ITomatoActionState
 				ended_at: new Date()
 			})
 			this.props.updateTomato(response.data.resource)
+			// updateTomato 最终更改了store中的tomatoes，而不是页面上按钮下面显示的东西
 			this.setState({description: ''})
 		}catch (e) {
 			throw new Error(e)
@@ -73,6 +78,7 @@ class TomatoAction extends React.Component<ITomatoActionProps,ITomatoActionState
 				</div>
 			}else if(timeNow - startedAt < duration){
 				const timer = duration - timeNow + startedAt
+				// 传给 CountDown.tsx ，作为倒计时的时间
 				html = <CountDown timer={timer} onFinish={this.onFinish}/> // 倒计时
 			}
 		}

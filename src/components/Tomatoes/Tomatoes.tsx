@@ -16,13 +16,16 @@ class Tomatoes extends React.Component<ITomatoesProps> {
 	constructor(props){
 		super(props)
 	}
+	// Tomatoes.tsx 中不需要 this.state，所以也无须类型声明
 
 	componentDidMount(){
 		this.getTomatoes()
+		// 页面加载完之后才获取数据？？？
 	}
 
 	get unfinishedTomato(){
 		return this.props.tomatoes.filter(t => !t.description && !t.ended_at)[0]
+		// 为什么只要一个？？？
 	}
 
 	getTomatoes = async ()=>{
@@ -37,7 +40,10 @@ class Tomatoes extends React.Component<ITomatoesProps> {
 	startTomato = async ()=>{
 		try{
 			const response = await axios.post('tomatoes',{duration: 1500000})
+			// 一个tomato持续时间为25min
 			this.props.addTomato(response.data.resource)
+			// 这时，由于是刚开始、还未结束的番茄时间，所以resource中 "ended_at" 和"description" 是null
+			// 在番茄时间结束之后，这个tomato会被updateTomato
 		}catch (e) {
 			throw new Error(e)
 		}
