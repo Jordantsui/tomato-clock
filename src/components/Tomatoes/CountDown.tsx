@@ -25,9 +25,11 @@ class CountDown extends React.Component<ICountDownProps,ICountDownState> {
 
 	componentDidMount(){
 		timerId = setInterval(()=>{
-			document.title = `${this.countDown} - 饥人谷番茄APP`;
+			// document.title = `${this.countDown} - 饥人谷番茄APP`;
 			const time = this.state.countDown
 			this.setState({countDown: time - 1000})
+			document.title = `${this.countDown} - 饥人谷番茄APP`;
+			// 将document.title放在这里解决了title与TomatoAction时间差一秒的问题
 			if(time < 1000){
 			// 若条件为time < 1，当time为1时，time-1000=-999，则页面会显示出-999，有隐患
 				document.title = '饥人谷番茄APP';

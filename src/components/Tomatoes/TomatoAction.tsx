@@ -1,4 +1,4 @@
-// 开始番茄闹钟的按钮
+// 开始番茄闹钟的按钮，之后的倒计时模块、输入模块、取消按钮等
 
 import * as React from 'react';
 import {Button,Input,Modal,Icon} from "antd"
