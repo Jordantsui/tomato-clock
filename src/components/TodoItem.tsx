@@ -35,6 +35,9 @@ class TodoItem extends React.Component<ITodoItemProps,ITodoItemState> {
 		this.props.update(this.props.id,params)
 	} */
 	updateTodo = async (params:any) => {
+		if(params.completed){
+			params.completed_at = new Date()
+		}
 		try {
 			const response = await axios.put(`todos/${this.props.id}`,params)
 			// 对于updateTodo这个操作而言，params是个对象，后台接受这个put操作，修改了数据库中的todos，再返回来
