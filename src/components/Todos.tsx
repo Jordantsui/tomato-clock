@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 // import {addTodo} from "../redux/actions";
-import {initTodos,updateTodo} from "../redux/actions/todos";
+// import {initTodos,updateTodo} from "../redux/actions/todos";
+import {updateTodo} from "../../redux/actions/todos";
 import TodoInput from 'src/components/TodoInput'
 import TodoItem from  'src/components/TodoItem'
-import axios from 'src/config/axios'
 import './Todos.scss'
 
 /* interface ITodosState {
@@ -43,7 +43,7 @@ class Todos extends React.Component<any> {
 		}
 	} */
 
-	componentDidMount(){
+/* 	componentDidMount(){
 		this.getTodos()
 	}
 
@@ -63,7 +63,7 @@ class Todos extends React.Component<any> {
 		}catch (e) {
 			throw new Error(e)
 		}
-	}
+	} */
 
 /* 	toEditing = (id:number) => {
 		const {todos} = this.state
@@ -109,7 +109,6 @@ const mapStateToProps = (state, ownProps) => ({
 
 
 const mapDispatchToProps = {
-	initTodos,
 	updateTodo
 	// initTodos,updateTodo 是actions/todos.ts中定义的action，写在这里就相当于使用dispatch绑定了这些action
 }

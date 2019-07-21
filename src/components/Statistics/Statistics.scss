@@ -1,0 +1,10 @@
+#Statistics{
+    ul{
+      display: flex;
+      /*用了flex布局之后，li由竖排自动变成横排*/
+      li{
+        flex: 1;
+      }
+    }
+  
+  }
